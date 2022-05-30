@@ -8,13 +8,15 @@ public static class ParcelExtensions
     {
         var largestDimension = new[] { parcel.Length, parcel.Height, parcel.Width }.Max();
 
-        return largestDimension switch
+        ParcelType matchingDimensionType = largestDimension switch
         {
             <= Small.MaxDimension => new Small(),
             <= Medium.MaxDimension => new Medium(),
             <= Large.MaxDimension => new Large(),
             > Large.MaxDimension => new ExtraLarge()
         };
+
+        return matchingDimensionType.MostCostEffectiveParcelSize(parcel.Weight);
     }
 
 }

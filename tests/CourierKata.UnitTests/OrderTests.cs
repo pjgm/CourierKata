@@ -61,8 +61,8 @@ public class OrderTests
     }
 
     [Theory]
-    [InlineData(false, 59)]
-    [InlineData(true, 118)]
+    [InlineData(false, 110)]
+    [InlineData(true, 220)]
     public void CreateOrder_MultipleOverweightParcels_ShouldReturnSumOfParcelsCost(bool speedyDelivery, int totalCost)
     {
         // Arrange
@@ -71,7 +71,32 @@ public class OrderTests
             new(9, 9, 9, 2),
             new(49, 20, 10, 4),
             new(50, 20, 10, 7),
-            new(200, 20, 10, 11)
+            new(200, 20, 10, 11),
+            new(1, 1, 1, 51),
+        };
+
+        var orderInput = new OrderInput(inputParcels, speedyDelivery);
+
+        // Act
+        Order order = new(orderInput);
+        _output.WriteLine(order.ToString());
+
+        // Assert
+        order.TotalCost.Should().Be(totalCost);
+    }
+
+    [Theory]
+    [InlineData(false, 261)]
+    [InlineData(true, 522)]
+    public void CreateOrder_MultipleHeavyParcels_ShouldReturnSumOfParcelsCost(bool speedyDelivery, int totalCost)
+    {
+        // Arrange
+        var inputParcels = new List<ParcelInput>
+        {
+            new(1, 2, 3, 50),
+            new(1, 2, 3, 60),
+            new(50, 50, 50, 100),
+            new(500, 500, 500, 51),
         };
 
         var orderInput = new OrderInput(inputParcels, speedyDelivery);

@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
+using CourierKata.Extensions;
 using CourierKata.Input;
 
 namespace CourierKata.Domain;
@@ -27,8 +29,12 @@ public class Order
         {
             sb.AppendLine($"\t{parcel.Type.ToString()} -> ${parcel.TotalCost}");
         }
-        sb.AppendLine($"* Total Delivery Cost: ${ Parcels.Sum(p => p.TotalCost)}");
-        sb.AppendLine($"* Speedy Delivery Cost: ${ TotalCost / TotalCostMultiplier}");
+        sb.AppendLine($"* Total Delivery Cost: ${ Parcels.Sum(p => p.Type.DeliveryCost)}");
+        sb.AppendLine($"* Overweight Delivery Cost: ${ Parcels.Sum(p => p.Type.SurchargeCost(p.Weight))}");
+        if (TotalCostMultiplier > 1)
+        {
+            sb.AppendLine($"* Speedy Delivery Cost: ${ TotalCost / TotalCostMultiplier}");
+        }
         sb.AppendLine($"* Total Order Cost: ${TotalCost}");
 
         return sb.ToString();
