@@ -1,3 +1,3 @@
 ﻿namespace CourierKata.Input;
 
-public record ParcelInput(int Height, int Width, int Length);
+public record ParcelInput(int Height, int Width, int Length, int Weight);

@@ -9,7 +9,7 @@ public class Order
     {
         Parcels = orderInput
             .Parcels
-            .Select(p => new Parcel(p.Height, p.Width, p.Length));
+            .Select(p => new Parcel(p.Height, p.Width, p.Length, p.Weight));
 
         TotalCostMultiplier = orderInput.FastDelivery ? 2 : 1;
     }
