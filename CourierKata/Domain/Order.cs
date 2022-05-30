@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
+using CourierKata.Domain.Discounts;
 using CourierKata.Extensions;
 using CourierKata.Input;
 
@@ -14,12 +15,17 @@ public class Order
             .Select(p => new Parcel(p.Height, p.Width, p.Length, p.Weight));
 
         TotalCostMultiplier = orderInput.FastDelivery ? 2 : 1;
+
+        Discounts = DiscountHandler.GetDiscounts(orderInput.DiscountNames);
     }
 
     public IEnumerable<Parcel> Parcels { get; }
+    public IEnumerable<Discount> Discounts { get; }
 
+    public int TotalDiscounts =>
+        Discounts.Sum(discount => discount.CalculateDiscountValue(Parcels));
     public int TotalCostMultiplier { get; }
-    public int TotalCost => Parcels.Sum(p => p.TotalCost) * TotalCostMultiplier;
+    public int TotalCost => (Parcels.Sum(p => p.TotalCost) - TotalDiscounts ) * TotalCostMultiplier;
 
     public override string ToString()
     {
@@ -35,6 +41,7 @@ public class Order
         {
             sb.AppendLine($"* Speedy Delivery Cost: ${ TotalCost / TotalCostMultiplier}");
         }
+        sb.AppendLine($"* Discounts: -${TotalDiscounts}");
         sb.AppendLine($"* Total Order Cost: ${TotalCost}");
 
         return sb.ToString();
