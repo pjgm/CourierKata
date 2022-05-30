@@ -3,7 +3,7 @@
 I decided to follow a domain driven approach from the start, encapsulating all bussiness logic in domain objects (`Order` & `Parcel`).
 This proved to be a good approach as I progressed through the different phases. 
 
-It also made testing pretty simple, even though adding new tests became a little bit cumbersome as new features where implemented.
+It also made testing pretty simple, even though adding new tests became a little bit cumbersome as new features were implemented.
 
 ## Phase 1: Setup & Initial implementation
 
